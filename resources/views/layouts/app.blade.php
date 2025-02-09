@@ -10,8 +10,11 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
         <!-- Scripts -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <!-- Styles -->
@@ -41,5 +44,32 @@
         @stack('modals')
 
         @livewireScripts
+        <script>
+            Livewire.on('mensaje', txt => {
+                Swal.fire({
+                    icon: "success",
+                    title: txt,
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            })
+            Livewire.on('alertaBorrar', id => {
+                Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes, delete it!"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        //queremos borrar elpost
+                        Livewire.dispatchTo('show-user-order', 'eBorrarConfirmado', id);
+
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
